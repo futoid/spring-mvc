@@ -29,4 +29,19 @@ public class AppExceptionHandler extends ResponseEntityExceptionHandler {
 		return new ResponseEntity<>(err, new HttpHeaders(), HttpStatus.INTERNAL_SERVER_ERROR);
 	}
 	
+	@ExceptionHandler(value = {NullPointerException.class})
+	public ResponseEntity<Object> handleNullException(NullPointerException ex, WebRequest request){
+		
+		String errorMessage = ex.getLocalizedMessage();
+		
+		if(errorMessage==null) {			
+			errorMessage=ex.toString();
+		}
+		
+		ErrorMessage err =  new ErrorMessage(new Date(), errorMessage);
+		
+		return new ResponseEntity<>(err, new HttpHeaders(), HttpStatus.INTERNAL_SERVER_ERROR);
+	}
+	
+	
 }
