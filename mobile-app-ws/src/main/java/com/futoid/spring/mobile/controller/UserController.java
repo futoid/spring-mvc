@@ -22,7 +22,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import com.futoid.spring.MobileAppWsApplication;
-import com.futoid.spring.mobile.exceptions.UserExceptionClass;
 import com.futoid.spring.mobile.model.response.UserDetailsRequestModel;
 import com.futoid.spring.mobile.model.response.UserRef;
 import com.futoid.spring.mobile.model.response.UserUpdateModel;
@@ -51,7 +50,8 @@ public class UserController {
 	@GetMapping(path="/{userId}", produces = {MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_JSON_VALUE})
 	public ResponseEntity<UserRef> getUser(@PathVariable String userId) {
 		
-		if(true) throw new UserExceptionClass("A User expcetion happened");
+		String firstName = null;
+		int lengthofName = firstName.length();
 		
 		if(users.containsKey(userId)) {
 			return new ResponseEntity<UserRef>(users.get(userId), HttpStatus.OK);

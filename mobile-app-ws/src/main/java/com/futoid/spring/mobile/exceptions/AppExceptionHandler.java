@@ -29,8 +29,8 @@ public class AppExceptionHandler extends ResponseEntityExceptionHandler {
 		return new ResponseEntity<>(err, new HttpHeaders(), HttpStatus.INTERNAL_SERVER_ERROR);
 	}
 	
-	@ExceptionHandler(value = {NullPointerException.class})
-	public ResponseEntity<Object> handleNullException(NullPointerException ex, WebRequest request){
+	@ExceptionHandler(value = {NullPointerException.class, UserExceptionClass.class})
+	public ResponseEntity<Object> handleNullException(Exception ex, WebRequest request){
 		
 		String errorMessage = ex.getLocalizedMessage();
 		
@@ -42,21 +42,6 @@ public class AppExceptionHandler extends ResponseEntityExceptionHandler {
 		
 		return new ResponseEntity<>(err, new HttpHeaders(), HttpStatus.INTERNAL_SERVER_ERROR);
 	}
-	
-	@ExceptionHandler(value = {UserExceptionClass.class})
-	public ResponseEntity<Object> handleUsetException(UserExceptionClass ex, WebRequest request){
-		
-		String errorMessage = ex.getLocalizedMessage();
-		
-		if(errorMessage==null) {			
-			errorMessage=ex.toString();
-		}
-		
-		ErrorMessage err =  new ErrorMessage(new Date(), errorMessage);
-		
-		return new ResponseEntity<>(err, new HttpHeaders(), HttpStatus.INTERNAL_SERVER_ERROR);
-	}
-	
-	
+
 	
 }
