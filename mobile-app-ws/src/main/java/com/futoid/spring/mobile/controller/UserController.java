@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.MediaType;
@@ -25,6 +26,7 @@ import com.futoid.spring.MobileAppWsApplication;
 import com.futoid.spring.mobile.model.response.UserDetailsRequestModel;
 import com.futoid.spring.mobile.model.response.UserRef;
 import com.futoid.spring.mobile.model.response.UserUpdateModel;
+import com.futoid.spring.mobile.services.UserService;
 
 @RestController
 @RequestMapping("/users")
@@ -32,6 +34,9 @@ public class UserController {
 
     private final MobileAppWsApplication mobileAppWsApplication;
     Map<String, UserRef> users;
+    
+    @Autowired
+    UserService userService;
 
     UserController(MobileAppWsApplication mobileAppWsApplication) {
         this.mobileAppWsApplication = mobileAppWsApplication;
@@ -48,11 +53,7 @@ public class UserController {
 	}
 	
 	@GetMapping(path="/{userId}", produces = {MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_JSON_VALUE})
-	public ResponseEntity<UserRef> getUser(@PathVariable String userId) {
-		
-		String firstName = null;
-		int lengthofName = firstName.length();
-		
+	public ResponseEntity<UserRef> getUser(@PathVariable String userId) {	
 		if(users.containsKey(userId)) {
 			return new ResponseEntity<UserRef>(users.get(userId), HttpStatus.OK);
 		}
@@ -61,15 +62,7 @@ public class UserController {
 	
 	@PostMapping(consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
 	public ResponseEntity<UserRef> postUser(@Validated @RequestBody UserDetailsRequestModel userDetails) {
-		UserRef user = new UserRef();
-		user.setFirstName(userDetails.getFirstName());
-		user.setLastName(userDetails.getLastName());
-		user.setEmail(userDetails.getEmail());
-		
-		String key = UUID.randomUUID().toString();
-		if(users == null) users = new HashMap<>();
-		user.setUserId(key);
-		users.put(key, user);
+		UserRef user = userService.postUser(userDetails);
 		
 		return new ResponseEntity<UserRef>(user, HttpStatus.OK);
 	}
