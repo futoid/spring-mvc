@@ -1,11 +1,14 @@
 package com.futoid.spring.mobile.controller;
 
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
 import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -36,12 +39,20 @@ public class UserController {
 	
 	//if required is false a request param is string it will pass null value, for int throws error
 	@GetMapping
-	public String getUser(@RequestParam(defaultValue="3") int page, @RequestParam(defaultValue="50", required = false) int limit, @RequestParam(required=false) String sort) {
-		return "get user called with page no " + page + " limit " + limit + " sort " + sort;  
+	public ResponseEntity<List<UserRef>> getUser() {
+		if(users.isEmpty()) {
+			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+		}
+		List<UserRef> userList = new ArrayList<>(users.values());
+	    return new ResponseEntity<>(userList, HttpStatus.OK);
 	}
 	
 	@GetMapping(path="/{userId}", produces = {MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_JSON_VALUE})
 	public ResponseEntity<UserRef> getUser(@PathVariable String userId) {
+		
+		String firstName = null;
+		int lengthofName = firstName.length();
+		
 		if(users.containsKey(userId)) {
 			return new ResponseEntity<UserRef>(users.get(userId), HttpStatus.OK);
 		}
