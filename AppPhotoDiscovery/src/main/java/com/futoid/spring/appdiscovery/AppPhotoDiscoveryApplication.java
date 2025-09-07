@@ -1,0 +1,15 @@
+package com.futoid.spring.appdiscovery;
+
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cloud.netflix.eureka.server.EnableEurekaServer;
+
+@SpringBootApplication
+@EnableEurekaServer
+public class AppPhotoDiscoveryApplication {
+
+	public static void main(String[] args) {
+		SpringApplication.run(AppPhotoDiscoveryApplication.class, args);
+	}
+
+}
