@@ -1,6 +1,6 @@
-package com.futoid.spring.mobile.model.response;
+package com.futoid.spring.appdiscovery.model;
 
-public class UserRef {
+public class CreateUserResponseModel {
 	private String firstName;
 	private String lastName;
 	private String email;
@@ -29,5 +29,4 @@ public class UserRef {
 	public void setUserId(String userId) {
 		this.userId = userId;
 	}
-	
 }
